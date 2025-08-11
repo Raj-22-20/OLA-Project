@@ -1,1 +1,88 @@
 SQL Queries
+
+1) #Retrive all SuccessFull Bookings
+
+Create View Successfull_Bookings as
+Select *from bookings
+where Booking_Status = 'Success';
+
+select *from Successfull_Bookings;
+
+
+2) #Find the average ride distance for each vehicle type
+
+create View ride_distance_for_each_vehicle_type as
+Select Vehicle_Type, avg(Ride_Distance)
+as avg_distance from bookings
+group by Vehicle_Type;
+
+select *from ride_distance_for_each_vehicle_type
+
+
+3) # Get the total number of canceled rides by customer
+
+create view Canceled_rides_by_customer as 
+
+select count(*) from bookings 
+where Booking_Status = 'canceled by customer';
+
+
+4) #list the top 5 customer who booked the highest number of rides
+
+create view top_5_customer_booked_the_highest_number_of_ride as
+
+select Customer_ID, count(Booking_ID) as rides
+from bookings
+group by (Customer_ID)
+order by rides desc limit 5;
+
+5) # Get the number of ride canceled by drivers due to personal car and related issue
+
+create view ride_canceled_by_drivers_due_to_personal_car_and_related_issue as
+select count(*) from bookings
+where Canceled_Rides_by_Driver = "Personal & Car related issue";
+
+select *from ride_canceled_by_drivers_due_to_personal_car_and_related_issue
+
+
+6) #find the maximum and minimum driver ratings for prime sedan
+
+create view driver_ratings_for_prime_sedan as
+select max(Driver_Ratings) as max_ratings,
+min(Driver_Ratings) as min_ratings
+from bookings where Vehicle_Type = "prime sedan";
+
+select *from driver_ratings_for_prime_sedan  
+
+7) # Retrive all rides where payment was made using UPI
+
+Create View Rides_Payment_With_UPI as
+select *from bookings 
+where payment_Methods = "UPI";
+
+8) # Find the average customer rating per vehicle type 
+
+create view average_customer_rating_per_vehicle_type as
+select Vehicle_Type, avg(Customer_Rating) as Average_Ratings
+from bookings
+group by Vehicle_Type;
+
+select *from average_customer_rating_per_vehicle_type;
+
+9) # Calculate the total booking Value of rides booking successfully
+
+Create view Total_Booking_Value as
+select sum(Booking_Value) as Total_Bokking
+From booking 
+where booking_Status = "Success"
+
+select *from Total_Booking_Value
+
+10) # List all incomplete rodes along with the reason
+
+create view Incomplete_Rides_Reason as
+select Booking_ID, Incomplete_Rides_Reason
+from bookings
+where Incomplete_Rides = "Yes";
+
+select* from Incomplete_Rides_Reason
